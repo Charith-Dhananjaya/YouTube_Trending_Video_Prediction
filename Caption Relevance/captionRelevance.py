@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
 
-API_KEY = 'AIzaSyD11o7fbZQAgeDzl1YxumbXHHy22Wq_76U'
+API_KEY = API_KEY
 BASE_URL = 'https://www.googleapis.com/youtube/v3/videos'
 
 params = {
