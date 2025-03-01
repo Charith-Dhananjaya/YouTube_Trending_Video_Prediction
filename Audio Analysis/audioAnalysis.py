@@ -71,22 +71,44 @@ df = pd.read_csv("unique_video_ids.csv")
 # Ensure 'audio' directory exists
 os.makedirs("audio", exist_ok=True)
 
-# Loop through downloaded videos and extract audio
-for video_id in df["video_id"]:
-    input_path = f"videos/{video_id}.mp4"
-    output_path = f"audio/{video_id}.wav"
+#Loop through downloaded videos and extract audio
+# for video_id in df["video_id"]:
+#     input_path = f"videos/{video_id}.mp4"
+#     output_path = f"audio/{video_id}.wav"
     
-    # ✅ Check if the video file exists before processing
-    if os.path.exists(input_path):
-        try:
-            ffmpeg.input(input_path).output(output_path, format="wav").run(overwrite_output=True)
-            print(f"✅ Extracted audio: {output_path}")
-        except Exception as e:
-            print(f"⚠️ Error extracting audio from {video_id}: {e}")
-    else:
-        print(f"❌ Skipping {video_id}: File not found!")
+#     # ✅ Check if the video file exists before processing
+#     if os.path.exists(input_path):
+#         try:
+#             ffmpeg.input(input_path).output(output_path, format="wav").run(overwrite_output=True)
+#             print(f"✅ Extracted audio: {output_path}")
+#         except Exception as e:
+#             print(f"⚠️ Error extracting audio from {video_id}: {e}")
+#     else:
+#         print(f"❌ Skipping {video_id}: File not found!")
 
-print("🎉 Audio extraction process completed!")
+# print("🎉 Audio extraction process completed!")
+
+import os
+import ffmpeg
+
+# Ensure the output folder exists
+os.makedirs("audio_mp3", exist_ok=True)
+
+# Loop through all WAV files and convert them to MP3
+for file in os.listdir("audio"):
+    if file.endswith(".wav"):  # Process only WAV files
+        wav_path = os.path.join("audio", file)
+        mp3_path = os.path.join("audio_mp3", file.replace(".wav", ".mp3"))
+
+        try:
+            # Convert WAV to MP3 (128kbps for good quality)
+            ffmpeg.input(wav_path).output(mp3_path, format="mp3", audio_bitrate="128k").run(overwrite_output=True)
+            print(f"✅ Converted: {file} → {mp3_path}")
+        except Exception as e:
+            print(f"⚠️ Error converting {file}: {e}")
+
+print("🎉 All WAV files have been converted to MP3!")
+
 
 
 
@@ -100,7 +122,7 @@ print("🎉 Audio extraction process completed!")
 # import requests
 # import time
 
-# API_KEY = 'AIzaSyD11o7fbZQAgeDzl1YxumbXHHy22Wq_76U'
+# API_KEY = API_KEY
 # SEARCH_URL = "https://www.googleapis.com/youtube/v3/videos"
 
 # # List of regions to fetch trending videos from
